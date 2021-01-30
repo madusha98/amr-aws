@@ -1,6 +1,7 @@
 image: nikolaik/python-nodejs:python3.6-nodejs12-stretch
 
 stages:
+  - test
   - deploy
 
 test:
