@@ -1,0 +1,38 @@
+service: amr-aws
+
+app: amr-aws-app
+org: madusha2018828
+
+frameworkVersion: "2"
+
+provider:
+  name: aws
+  runtime: python3.8
+
+functions:
+  test:
+    handler: lambdas/handler.hello
+    events:
+      - http:
+          path: test
+          method: get
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
+
+resources:
+  Resources:
+    ApiGatewayAuthorizer:
+      DependsOn:
+        - ApiGatewayRestApi
+      Type: AWS::ApiGateway::Authorizer
+      Properties:
+        Name: cognito-authorizer
+        IdentitySource: method.request.header.Authorization
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        Type: COGNITO_USER_POOLS
+        ProviderARNs:
+          # arn should get from the generated user pool from frontend
+          - arn:aws:cognito-idp:us-east-1:923250232734:userpool/us-east-1_X8rQ1Si4k
