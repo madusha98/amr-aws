@@ -8,6 +8,16 @@ frameworkVersion: "2"
 provider:
   name: aws
   runtime: python3.8
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:us-east-1:923250232734:table/devicesTable"
 
 functions:
   test:
@@ -25,7 +35,7 @@ functions:
     handler: lambdas/user/push_token_handler.update_token
     events:
       - http:
-          path: test
+          path: user/updatePushToken
           method: post
 
 resources:
