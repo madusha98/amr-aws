@@ -21,6 +21,13 @@ functions:
             authorizerId:
               Ref: ApiGatewayAuthorizer
 
+  update_push_token:
+    handler: lambdas/user/push_token_handler.update_token
+    events:
+      - http:
+          path: test
+          method: post
+
 resources:
   Resources:
     ApiGatewayAuthorizer:
@@ -36,3 +43,16 @@ resources:
         ProviderARNs:
           # arn should get from the generated user pool from frontend
           - arn:aws:cognito-idp:us-east-1:923250232734:userpool/us-east-1_X8rQ1Si4k
+    DevicesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: devicesTable
+        AttributeDefinitions:
+          - AttributeName: deviceId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: deviceId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
