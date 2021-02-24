@@ -5,6 +5,13 @@ org: madusha2018828
 
 frameworkVersion: "2"
 
+plugins:
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    dockerizePip: non-linux
+
 provider:
   name: aws
   runtime: python3.8
