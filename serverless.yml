@@ -35,10 +35,14 @@ functions:
     handler: lambdas/fcm/push_token_handler.update_token
     events:
       - http:
-          path: user/updatePushToken
+          path: fcm/updatePushToken
           method: post
   send_push_notification:
     handler: lambdas/fcm/push_message_handler.send_notification
+    events:
+      - http:
+          path: fcm/sendPushMessage
+          method: post
 
 resources:
   Resources:
