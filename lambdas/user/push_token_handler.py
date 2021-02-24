@@ -24,9 +24,10 @@ def update_token(event, context):
         resp = dynamodb.put_item(params)
         responseBody = { "data": resp }
 
-    except:
+    except Exception as e:
+        print('Exception: ', e)
         statusCode = 500
-        responseBody = {"error": 'Something went wrong'}
+        responseBody = {"error": e }
 
     response = {
         "statusCode": statusCode,
