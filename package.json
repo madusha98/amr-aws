@@ -1,0 +1,28 @@
+{
+  "name": "amr-aws",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "serverless-dynamodb-local": "^0.2.39",
+    "serverless-offline": "^6.8.0",
+    "serverless-python-requirements": "^5.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/uptransit/amr-aws.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/uptransit/amr-aws/issues"
+  },
+  "homepage": "https://gitlab.com/uptransit/amr-aws#readme"
+}

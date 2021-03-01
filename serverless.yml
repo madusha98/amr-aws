@@ -7,10 +7,18 @@ frameworkVersion: "2"
 
 plugins:
   - serverless-python-requirements
+  # - serverless-dynamodb-local
+  # - serverless-offline
 
 custom:
   pythonRequirements:
     dockerizePip: non-linux
+  dynamodb:
+    start:
+      migrate: true
+    stages:
+      - production
+      - dev
 
 provider:
   name: aws
