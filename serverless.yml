@@ -7,8 +7,9 @@ frameworkVersion: "2"
 
 plugins:
   - serverless-python-requirements
-  # - serverless-dynamodb-local
-  # - serverless-offline
+  - serverless-dynamodb-local
+  - serverless-offline
+  - serverless-apigw-binary
 
 custom:
   pythonRequirements:
@@ -19,6 +20,9 @@ custom:
     stages:
       - production
       - dev
+  apigwBinary:
+    types:
+      - "*/*"
 
 provider:
   name: aws
@@ -33,6 +37,9 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:us-east-1:923250232734:table/devicesTable"
+  apiGateway:
+    binaryMediaTypes:
+      - "*/*"
 
 functions:
   test:
@@ -57,6 +64,12 @@ functions:
     events:
       - http:
           path: fcm/sendPushMessage
+          method: post
+  read_digits:
+    handler: lambdas/meter_reader/handler.read_digits
+    events:
+      - http:
+          path: meter_reader/read_digits
           method: post
 
 resources:

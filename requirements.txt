@@ -1,2 +1,9 @@
 requests
 firebase-admin
+Flask
+pybase64
+jsonpickle
+pillow
+numpy
+opencv-python
+requests-toolbelt
