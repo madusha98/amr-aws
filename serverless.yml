@@ -5,6 +5,18 @@ org: madusha2018828
 
 frameworkVersion: "2"
 
+package:
+  individually: true
+  exclude:
+    - node_modules/**
+    - yolo-model/**
+    - numpy.libs/**
+    - opencv_python.libs/**
+    - cv2/**
+    - googleapiclient/**
+    - numpy/**
+    - google/**
+
 plugins:
   - serverless-python-requirements
   # - serverless-dynamodb-local
@@ -55,14 +67,27 @@ functions:
       - http:
           path: fcm/updatePushToken
           method: post
+
   send_push_notification:
     handler: lambdas/fcm/push_message_handler.send_notification
+    package:
+      include:
+        - google/**
+        - googleapiclient/**
     events:
       - http:
           path: fcm/sendPushMessage
           method: post
+
   read_digits:
     handler: lambdas/meter_reader/handler.read_digits
+    package:
+      include:
+        - yolo-model/**
+        - numpy.libs/**
+        - opencv_python.libs/**
+        - cv2/**
+        - numpy/**
     events:
       - http:
           path: meter_reader/read_digits
