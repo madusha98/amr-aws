@@ -7,9 +7,9 @@ frameworkVersion: "2"
 
 package:
   individually: true
-  exclude:
-    - node_modules/**
-    - yolo-model/**
+  # exclude:
+  #   - node_modules/**
+  #   - yolo-model/**
 
 plugins:
   - serverless-python-requirements
