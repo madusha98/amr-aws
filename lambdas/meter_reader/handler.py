@@ -1,4 +1,4 @@
-from . import counter_recognition
+import counter_recognition
 import json
 
 def read_digits(event, context):
