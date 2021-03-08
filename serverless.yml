@@ -10,12 +10,6 @@ package:
   exclude:
     - node_modules/**
     - yolo-model/**
-    - numpy.libs/**
-    - opencv_python.libs/**
-    - cv2/**
-    - googleapiclient/**
-    - numpy/**
-    - google/**
 
 plugins:
   - serverless-python-requirements
@@ -70,10 +64,7 @@ functions:
 
   send_push_notification:
     handler: lambdas/fcm/push_message_handler.send_notification
-    package:
-      include:
-        - google/**
-        - googleapiclient/**
+    module: lambdas/fcm
     events:
       - http:
           path: fcm/sendPushMessage
@@ -81,13 +72,10 @@ functions:
 
   read_digits:
     handler: lambdas/meter_reader/handler.read_digits
+    module: lambdas/meter_reader
     package:
       include:
         - yolo-model/**
-        - numpy.libs/**
-        - opencv_python.libs/**
-        - cv2/**
-        - numpy/**
     events:
       - http:
           path: meter_reader/read_digits

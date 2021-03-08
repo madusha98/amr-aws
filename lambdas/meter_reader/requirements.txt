@@ -1,5 +1,3 @@
-requests
-firebase-admin
 Flask
 pybase64
 jsonpickle
