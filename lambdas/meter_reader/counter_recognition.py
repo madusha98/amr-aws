@@ -139,9 +139,9 @@ def get_predection(image,net,LABELS,COLORS):
 
 
 def get_reading(event):
-  labelsPath='yolo-model/labels.txt'
-  cfgpath='yolo-model/yolov2-tiny-obj.cfg'
-  wpath='yolo-model/yolov2-tiny-obj_last.weights'
+  labelsPath='./yolo-model/labels.txt'
+  cfgpath='./yolo-model/yolov2-tiny-obj.cfg'
+  wpath='./yolo-model/yolov2-tiny-obj_last.weights'
   Lables=get_labels(labelsPath)
   CFG=get_config(cfgpath)
   Weights=get_weights(wpath)
