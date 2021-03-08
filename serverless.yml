@@ -72,13 +72,7 @@ functions:
 
   read_digits:
     handler: lambdas/meter_reader/handler.read_digits
-    package:
-      include:
-        - yolo-model/labels.txt
-        - yolo-model/yolov2-tiny-obj_last.weights
-        - yolo-model/yolov2-tiny-obj.cfg
     module: lambdas/meter_reader
-
     events:
       - http:
           path: meter_reader/read_digits
