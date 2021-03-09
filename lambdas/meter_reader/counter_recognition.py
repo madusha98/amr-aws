@@ -58,12 +58,11 @@ def get_reading(event):
 
     imageStream = io.BytesIO(binary_content[0])
     img = Image.open(imageStream)
-    npimg=np.array(img)
-
-
+    # npimg=np.array(img)
     # img = request.files["image"]
     # npimg = np.fromfile(img, np.uint8)
-    img = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
+    # img = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
+    img = cv2.cvtColor(np.asarray(img),cv2.COLOR_RGB2BGR)
     predection = get_predection(img)
     res = validate_predection(predection)
     return res
