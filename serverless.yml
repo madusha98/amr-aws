@@ -17,6 +17,10 @@ plugins:
   # - serverless-offline
 
 custom:
+  defaultStage: dev
+  currentStage: ${opt:stage, self:custom.defaultStage}
+  userPoolName: test-user-pool-${self:custom.currentStage}
+  userPoolClientName: test-user-pool-client-${self:custom.currentStage}
   pythonRequirements:
     dockerizePip: non-linux
   dynamodb:
@@ -29,6 +33,7 @@ custom:
 provider:
   name: aws
   runtime: python3.6
+  region: ap-southeast-1
   # iamRoleStatements:
   #   - Effect: "Allow"
   #     Action:
@@ -91,8 +96,7 @@ resources:
           Ref: ApiGatewayRestApi
         Type: COGNITO_USER_POOLS
         ProviderARNs:
-          # arn should get from the generated user pool from frontend
-          - arn:aws:cognito-idp:us-east-1:923250232734:userpool/us-east-1_X8rQ1Si4k
+          - Fn::GetAtt: [CognitoUserPool, Arn]
     DevicesTable:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -106,3 +110,48 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+    CognitoUserPool:
+      Type: "AWS::Cognito::UserPool"
+      Properties:
+        MfaConfiguration: OFF
+        UserPoolName: "AMR-User-Pool"
+        UsernameAttributes: ${self:custom.userPoolName}
+          - email
+        Policies:
+          PasswordPolicy:
+            MinimumLength: 6
+            RequireLowercase: False
+            RequireNumbers: True
+            RequireSymbols: False
+            RequireUppercase: True
+        Schema:
+          - Name: email
+            Required: true
+            Mutable: true
+          - Name: name
+            Required: true
+            Mutable: true
+          - Name: phone_number
+            Required: true
+            Mutable: true
+          - Name: nic
+            Mutable: true
+            AttributeDataType: String
+            StringAttributeConstraints:
+              MinLength: 9
+              MaxLength: 12
+    CognitoUserPoolClient:
+      Type: "AWS::Cognito::UserPoolClient"
+      Properties:
+        ClientName: ${self:custom.userPoolClientName}
+        GenerateSecret: False
+        UserPoolId:
+          Ref: CognitoUserPool
+    Outputs:
+    CognitoUserPoolArn:
+      Value:
+        Fn::GetAtt:
+          - CognitoUserPool
+          - Arn
+      Export:
+        Name: CognitoUserPoolArn-${self:custom.currentStage}
