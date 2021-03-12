@@ -114,8 +114,8 @@ resources:
       Type: "AWS::Cognito::UserPool"
       Properties:
         MfaConfiguration: OFF
-        UserPoolName: "AMR-User-Pool"
-        UsernameAttributes: ${self:custom.userPoolName}
+        UserPoolName: ${self:custom.userPoolName}
+        UsernameAttributes:
           - email
         Policies:
           PasswordPolicy:
