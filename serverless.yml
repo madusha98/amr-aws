@@ -7,8 +7,8 @@ frameworkVersion: "2"
 
 package:
   individually: true
-  # exclude:
-  #   - node_modules/**
+  exclude:
+    - node_modules/**
   #   - yolo-model/**
 
 plugins:
@@ -89,7 +89,7 @@ functions:
     events:
       - http:
           path: billValue/getBillValue
-          method: post           
+          method: post
 
 resources:
   Resources:
