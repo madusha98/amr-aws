@@ -1,13 +1,14 @@
 import json
 import boto3
+import base64
 
 
 def update_token(event, context):
     statusCode = 200
     responseBody = {'data': ''}
     dynamodb = boto3.resource('dynamodb')
-
-    req = json.loads(event['body'])
+    body_dec = base64.b64decode(event['body'])
+    req = json.loads(body_dec)
     try:
         table = dynamodb.Table('devicesTable')
         item = table.get_item(Key={'deviceId': req['deviceId']})
