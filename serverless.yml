@@ -83,6 +83,13 @@ functions:
           path: meter_reader/read_digits
           method: post
 
+  get_bill_value:
+    handler: lambdas/bill_value/get_bill_value
+    events:
+      - http:
+          path: bill_value/get_bill_value
+          method: get           
+
 resources:
   Resources:
     ApiGatewayAuthorizer:
