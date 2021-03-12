@@ -84,7 +84,7 @@ functions:
           method: post
 
   get_bill_value:
-    handler: lambdas/bill_value/get_bill_value
+    handler: lambdas/bill_value/bill_value_handler.get_bill_value
     events:
       - http:
           path: bill_value/get_bill_value
