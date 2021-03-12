@@ -147,11 +147,11 @@ resources:
         GenerateSecret: False
         UserPoolId:
           Ref: CognitoUserPool
-    Outputs:
-      CognitoUserPoolArn:
-        Value:
-          Fn::GetAtt:
-            - CognitoUserPool
-            - Arn
-        Export:
-          Name: CognitoUserPoolArn-${self:custom.currentStage}
+  Outputs:
+    CognitoUserPoolArn:
+      Value:
+        Fn::GetAtt:
+          - CognitoUserPool
+          - Arn
+      Export:
+        Name: CognitoUserPoolArn-${self:custom.currentStage}
