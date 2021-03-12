@@ -148,10 +148,10 @@ resources:
         UserPoolId:
           Ref: CognitoUserPool
     Outputs:
-    CognitoUserPoolArn:
-      Value:
-        Fn::GetAtt:
-          - CognitoUserPool
-          - Arn
-      Export:
-        Name: CognitoUserPoolArn-${self:custom.currentStage}
+      CognitoUserPoolArn:
+        Value:
+          Fn::GetAtt:
+            - CognitoUserPool
+            - Arn
+        Export:
+          Name: CognitoUserPoolArn-${self:custom.currentStage}
