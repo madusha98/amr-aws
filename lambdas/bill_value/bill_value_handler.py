@@ -1,11 +1,13 @@
 import requests
 import json
+import base64
 
 
 def get_bill_value(event, context):
 
-    # 1. partse out query string parameters
-    request = json.loads(event['body'])
+    # 1. parse out request json body
+    body_dec = base64.b64decode(event['body'])
+    request = json.loads(body_dec)
     noOfUnits = request['NoOfUnits']
     fromDate = request['FromDate']
     toDate = request['ToDate']
