@@ -43,7 +43,11 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:us-east-1:923250232734:table/devicesTable"
+        - lambda:InvokeFunction
+      Resource:
+        - arn:aws:dynamodb:ap-southeast-1:*:*
+        - arn:aws:lambda:ap-southeast-1:*:*
+
   apiGateway:
     binaryMediaTypes:
       - "*/*"
@@ -55,7 +59,6 @@ functions:
       - http:
           path: test
           method: get
-          cors: true
           authorizer:
             type: COGNITO_USER_POOLS
             authorizerId:
