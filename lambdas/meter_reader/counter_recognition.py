@@ -49,10 +49,11 @@ def get_reading(event):
 
     body = event["body"]
     content_type = ""
-    if (event["headers"]["Content-Type"] is not None):
+    try:
         content_type = event["headers"]["Content-Type"]
-    elif (event["headers"]["content-type"] is not None):
+    except:
         content_type = event["headers"]["content-type"]
+        
     body_dec = base64.b64decode(body)
     multipart_data = MultipartDecoder(body_dec, content_type)
 
