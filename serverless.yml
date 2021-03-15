@@ -47,6 +47,15 @@ provider:
       Resource:
         - arn:aws:dynamodb:ap-southeast-1:*:*
         - arn:aws:lambda:ap-southeast-1:*:*
+    - Effect: Allow
+      Action:
+        - cognito-sync:*
+        - cognito-identity:*
+      Resource: arn:aws:cognito-identity:*:*:*
+    - Effect: Allow
+      Action:
+        - cognito-idp:*
+      Resource: arn:aws:cognito-idp:*:*:*
 
   apiGateway:
     binaryMediaTypes:
