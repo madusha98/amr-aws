@@ -179,7 +179,7 @@ resources:
           - ClientId:
               Ref: CognitoUserPoolClient
             ProviderName:
-              "Fn::GetAtt": [UserPool, ProviderName]
+              "Fn::GetAtt": [CognitoUserPool, ProviderName]
         SupportedLoginProviders:
           "graph.facebook.com": "xxxxxxxxxx"
         OpenIdConnectProviderARNs:
