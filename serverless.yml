@@ -19,9 +19,9 @@ plugins:
 custom:
   defaultStage: dev
   currentStage: ${opt:stage, self:custom.defaultStage}
-  userPoolName: test-user-pool-${self:custom.currentStage}
-  userPoolClientName: test-user-pool-client-${self:custom.currentStage}
-  identityPoolName: test-identity-pool-${self:custom.currentStage}
+  userPoolName: amr-user-pool-${self:custom.currentStage}
+  userPoolClientName: amr-user-pool-client-${self:custom.currentStage}
+  identityPoolName: amr_identity_pool_${self:custom.currentStage}
   pythonRequirements:
     dockerizePip: non-linux
   dynamodb:
