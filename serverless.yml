@@ -248,6 +248,7 @@ resources:
                 - Effect: "Allow"
                   Action:
                     - "lambda:InvokeFunction"
+                    - "execute-api:Invoke"
                   Resource: "*"
 
     # Assigns the roles to the Identity Pool
