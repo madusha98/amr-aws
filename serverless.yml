@@ -21,6 +21,7 @@ custom:
   currentStage: ${opt:stage, self:custom.defaultStage}
   userPoolName: test-user-pool-${self:custom.currentStage}
   userPoolClientName: test-user-pool-client-${self:custom.currentStage}
+  identityPoolName: test-identity-pool-${self:custom.currentStage}
   pythonRequirements:
     dockerizePip: non-linux
   dynamodb:
@@ -173,7 +174,7 @@ resources:
     IdentityPool:
       Type: "AWS::Cognito::IdentityPool"
       Properties:
-        IdentityPoolName: $<self:service>Identity
+        IdentityPoolName: ${self:custom.identityPoolName}
         AllowUnauthenticatedIdentities: true
         CognitoIdentityProviders:
           - ClientId:
