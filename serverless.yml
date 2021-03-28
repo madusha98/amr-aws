@@ -27,9 +27,15 @@ custom:
   dynamodb:
     start:
       migrate: true
+      port: 8000
+      inMemory: true
     stages:
       - production
       - dev
+    migration:
+      dir: offline/migrations
+  serverless-offline:
+    resourceRoutes: true
 
 provider:
   name: aws
@@ -68,7 +74,7 @@ functions:
     events:
       - http:
           path: test
-          method: get
+          method: post
           authorizer:
             type: COGNITO_USER_POOLS
             authorizerId:

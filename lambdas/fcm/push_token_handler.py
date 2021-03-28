@@ -1,7 +1,7 @@
 import json
 import boto3
 import base64
-
+from botocore.config import Config
 
 def update_token(event, context):
     statusCode = 200
@@ -9,6 +9,7 @@ def update_token(event, context):
     dynamodb = boto3.resource('dynamodb')
     body_dec = base64.b64decode(event['body'])
     req = json.loads(body_dec)
+    # req = json.loads(event['body']) # Uncomment to run locally
     try:
         table = dynamodb.Table('devicesTable')
         item = table.get_item(Key={'deviceId': req['deviceId']})
@@ -16,7 +17,8 @@ def update_token(event, context):
         if ('Item' not in item):
             resp = table.put_item(Item={
                 'deviceId': req['deviceId'],
-                'pushToken': req['pushToken']
+                'pushToken': req['pushToken'],
+                'userId': req['userId']
             })
             responseBody = { "data": resp, "message": "Added Successfully" }
         else:

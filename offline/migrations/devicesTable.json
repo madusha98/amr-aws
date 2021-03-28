@@ -1,0 +1,17 @@
+{
+  "Table": {
+    "TableName": "devicesTable",
+    "KeySchema": {
+      "AttributeName": "deviceId",
+      "KeyType": "HASH"
+    },
+    "AttributeDefinitions": {
+      "AttributeName": "deviceId",
+      "AttributeType": "S"
+    },
+    "ProvisionedThroughput": {
+      "ReadCapacityUnits": 1,
+      "WriteCapacityUnits": 1
+    }
+  }
+}
