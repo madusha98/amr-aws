@@ -1,6 +1,11 @@
 import requests
 import json
 import base64
+import boto3
+import uuid
+import time
+from botocore.config import Config
+from decimal import Decimal
 
 
 def get_bill_value(event, context):
@@ -8,6 +13,7 @@ def get_bill_value(event, context):
     # 1. parse out request json body
     body_dec = base64.b64decode(event['body'])
     request = json.loads(body_dec)
+    # request = json.loads(event['body'])
     noOfUnits = request['NoOfUnits']
     fromDate = request['FromDate']
     toDate = request['ToDate']
@@ -30,9 +36,24 @@ def get_bill_value(event, context):
     # response_load = json.loads(response.text)
     # print('Bill Value:', response_load['Total'])
 
+    dynamodb = boto3.resource('dynamodb')
+    try:
+        table = dynamodb.Table('billTable')
+        id = uuid.uuid4().hex
+        resp = table.put_item(Item={
+                'billId': id,
+                'readingId': req['readingId'],
+                'accId': req['accId'],
+                'billValue': response,
+                'date': Decimal(str(time.time()))
+            })
+    except Exception as e:
+        print('Exception: ', e)
+
     # 4. return the repsonse object
     response = json.loads(response.text)
     return {
         "body": json.dumps(response)
     }
+    
 

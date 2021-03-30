@@ -1,0 +1,18 @@
+{
+    "Table": {
+      "TableName": "billTable",
+      "KeySchema": {
+        "AttributeName": "billId",
+        "KeyType": "HASH"
+      },
+      "AttributeDefinitions": {
+        "AttributeName": "billId",
+        "AttributeType": "S"
+      },
+      "ProvisionedThroughput": {
+        "ReadCapacityUnits": 1,
+        "WriteCapacityUnits": 1
+      }
+    }
+  }
+  

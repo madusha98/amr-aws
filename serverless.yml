@@ -138,6 +138,19 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+    BillTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: billTable
+        AttributeDefinitions:
+          - AttributeName: billId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: billId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1      
     CognitoUserPool:
       Type: "AWS::Cognito::UserPool"
       Properties:
