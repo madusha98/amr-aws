@@ -42,9 +42,9 @@ def get_bill_value(event, context):
         id = uuid.uuid4().hex
         resp = table.put_item(Item={
                 'billId': id,
-                'readingId': req['readingId'],
-                'accId': req['accId'],
-                'billValue': response,
+                'readingId': request['readingId'],
+                'accId': request['accId'],
+                'billValue': json.loads(response.text),
                 'date': Decimal(str(time.time()))
             })
     except Exception as e:
