@@ -19,3 +19,6 @@ production:
   script:
     - serverless deploy --stage production --verbose
   environment: production
+  only:
+    refs:
+      - master
