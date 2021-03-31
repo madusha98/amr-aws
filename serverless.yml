@@ -104,12 +104,20 @@ functions:
           method: post
 
   get_bill_value:
-    handler: lambdas/bill_value/bill_value_handler.get_bill_value
-    module: lambdas/bill_value
+    handler: lambdas/bill/bill_value_handler.get_bill_value
+    module: lambdas/bill
     events:
       - http:
-          path: billValue/getBillValue
+          path: bill/getBillValue
           method: post
+
+  get_bill_history:
+    handler: lambdas/bill/bill_history_handler.get_history
+    module: lambdas/bill
+    events:
+      - http:
+          path: bill/getHistory
+          method: post         
 
 resources:
   Resources:
