@@ -150,7 +150,20 @@ resources:
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
-          WriteCapacityUnits: 1      
+          WriteCapacityUnits: 1
+    MonthlyReadingTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: monthlyReadingTable
+        AttributeDefinitions:
+          - AttributeName: readingId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: readingId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
     CognitoUserPool:
       Type: "AWS::Cognito::UserPool"
       Properties:

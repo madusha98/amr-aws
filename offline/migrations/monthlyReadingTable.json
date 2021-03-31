@@ -1,0 +1,17 @@
+{
+  "Table": {
+    "TableName": "monthlyReadingTable",
+    "KeySchema": {
+      "AttributeName": "readingId",
+      "KeyType": "HASH"
+    },
+    "AttributeDefinitions": {
+      "AttributeName": "readingId",
+      "AttributeType": "S"
+    },
+    "ProvisionedThroughput": {
+      "ReadCapacityUnits": 1,
+      "WriteCapacityUnits": 1
+    }
+  }
+}

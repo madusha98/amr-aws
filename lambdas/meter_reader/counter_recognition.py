@@ -35,7 +35,7 @@ def get_predection(image):
 
 def validate_predection(data):
     if (len(data) != 5):
-        return {'error': 'Something went wrong. Please try again'}, 500
+        return {'error': 'Something went wrong. Please try again'}
     
     value = [item['class'] for item in data]
     value = ''.join(map(str,value))
