@@ -3,7 +3,7 @@ import boto3
 
 
 def hello(event, context):
-    dynamodb = boto3.resource('dynamodb'
+    dynamodb = boto3.resource('dynamodb')
     # dynamodb = boto3.resource('dynamodb', endpoint_url='http://localhost:8000', region_name='us-west-2') # local
     try:
         table = dynamodb.Table('monthlyReadingTable')
