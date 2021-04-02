@@ -7,19 +7,19 @@ from boto3.dynamodb.conditions import Key, Attr
 def get_history(event, context):
     statusCode = 200
     dynamodb = boto3.resource('dynamodb')
-    body_dec = base64.b64decode(event['body'])
-    req = json.loads(body_dec) 
+    # body_dec = base64.b64decode(event['body'])
+    # req = json.loads(body_dec) 
     # req = json.loads(event['body']) # Uncomment to run locally
     try:
         table = dynamodb.Table('billTable')
         response = table.scan(
             ProjectionExpression="billValue",
-            FilterExpression=Attr('accId').eq(req['accId'])
+            FilterExpression=Attr('accId').eq(event["queryStringParameters"]['accId'])
         )
         data = []
         for res in response['Items']:
             # print(json.dumps(res))
-            item = {"billValue": res['billValue']['Total']}
+            item = {"billValue": res['billValue']}
             # print(item)
             data.append(item)
         responseBody=json.dumps(data)
