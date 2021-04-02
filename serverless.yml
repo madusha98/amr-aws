@@ -13,12 +13,9 @@ package:
 
 plugins:
   - serverless-python-requirements
-  - serverless-dynamodb-local
-  - serverless-offline
-<<<<<<< HEAD
-=======
+  # - serverless-dynamodb-local
+  # - serverless-offline
 
->>>>>>> 40a790c57569f928e8c357397db1634585b0b096
 custom:
   defaultStage: dev
   currentStage: ${opt:stage, self:custom.defaultStage}
@@ -120,8 +117,8 @@ functions:
     events:
       - http:
           path: bill/getHistory
-          method: get         
-                
+          method: get
+
   save_payment:
     handler: lambdas/payment/payment_handler.save_payment
     module: lambdas/payment
@@ -195,7 +192,7 @@ resources:
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
-          WriteCapacityUnits: 1      
+          WriteCapacityUnits: 1
     CognitoUserPool:
       Type: "AWS::Cognito::UserPool"
       Properties:
