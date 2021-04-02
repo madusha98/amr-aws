@@ -1,0 +1,17 @@
+{
+    "Table": {
+      "TableName": "paymentTable",
+      "KeySchema": {
+        "AttributeName": "transactionId",
+        "KeyType": "HASH"
+      },
+      "AttributeDefinitions": {
+        "AttributeName": "transactionId",
+        "AttributeType": "S"
+      },
+      "ProvisionedThroughput": {
+        "ReadCapacityUnits": 1,
+        "WriteCapacityUnits": 1
+      }
+    }
+  }

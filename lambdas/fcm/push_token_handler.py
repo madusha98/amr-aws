@@ -7,9 +7,9 @@ def update_token(event, context):
     statusCode = 200
     responseBody = {'data': ''}
     dynamodb = boto3.resource('dynamodb')
-    body_dec = base64.b64decode(event['body'])
-    req = json.loads(body_dec)
-    # req = json.loads(event['body']) # Uncomment to run locally
+    # body_dec = base64.b64decode(event['body'])
+    # req = json.loads(body_dec)
+    req = json.loads(event['body']) # Uncomment to run locally
     try:
         table = dynamodb.Table('devicesTable')
         item = table.get_item(Key={'deviceId': req['deviceId']})
