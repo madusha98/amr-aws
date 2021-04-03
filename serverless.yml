@@ -7,6 +7,11 @@ frameworkVersion: "2"
 
 package:
   individually: true
+  exclude:
+    - node_modules/**
+    - offline/**
+    - .dynamodb/**
+  #   - yolo-model/**
 
 plugins:
   - serverless-python-requirements
@@ -21,6 +26,7 @@ custom:
   identityPoolName: amr_identity_pool_${self:custom.currentStage}
   pythonRequirements:
     dockerizePip: non-linux
+    vendor: "./vendored-libraries"
   dynamodb:
     start:
       migrate: true
@@ -125,15 +131,13 @@ functions:
           method: get
 
   save_payment:
-    handler: lambdas/payment/payment_handler.save_payment
+    handler: payment_handler.save_payment
     module: lambdas/payment
+    vendor: "./vendored-libraries"
     events:
       - http:
           path: payment/savePayment
           method: post
-    package:
-      include:
-        - utils/**
 
   add_account:
     handler: lambdas/account/account_handler.add_account
