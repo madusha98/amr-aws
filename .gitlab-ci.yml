@@ -17,6 +17,7 @@ production:
     - npm config set prefix /usr/local
     - npm install -g serverless
     - npm install --save serverless-python-requirements
+    - npm install --save serverless-package-python-functions
   script:
     - serverless deploy --stage production --verbose
   environment: production
