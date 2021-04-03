@@ -7,8 +7,6 @@ frameworkVersion: "2"
 
 package:
   individually: true
-  patterns:
-    - "utils/**"
 
 plugins:
   - serverless-python-requirements
@@ -133,6 +131,9 @@ functions:
       - http:
           path: payment/savePayment
           method: post
+    package:
+      include:
+        - utils/**
 
   add_account:
     handler: lambdas/account/account_handler.add_account
