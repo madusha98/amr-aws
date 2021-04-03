@@ -72,26 +72,27 @@ provider:
       - "*/*"
 
 functions:
-  test:
-    handler: lambdas/handler.hello
-    events:
-      - http:
-          path: test
-          method: post
-          authorizer:
-            type: COGNITO_USER_POOLS
-            authorizerId:
-              Ref: ApiGatewayAuthorizer
+  # test:
+  #   handler: lambdas/handler.hello
+  #   events:
+  #     - http:
+  #         path: test
+  #         method: post
+  #         authorizer:
+  #           type: COGNITO_USER_POOLS
+  #           authorizerId:
+  #             Ref: ApiGatewayAuthorizer
 
   update_push_token:
-    handler: lambdas/fcm/push_token_handler.update_token
+    handler: push_token_handler.update_token
+    module: lambdas/fcm
     events:
       - http:
           path: fcm/updatePushToken
           method: post
 
   send_push_notification:
-    handler: lambdas/fcm/push_message_handler.send_notification
+    handler: push_message_handler.send_notification
     module: lambdas/fcm
     events:
       - http:
@@ -99,7 +100,7 @@ functions:
           method: post
 
   read_digits:
-    handler: lambdas/meter_reader/handler.read_digits
+    handler: handler.read_digits
     module: lambdas/meter_reader
     events:
       - http:
@@ -107,7 +108,7 @@ functions:
           method: post
 
   get_meter_history:
-    handler: lambdas/meter_reader/meter_reader_history_handler.get_meter_history
+    handler: meter_reader_history_handler.get_meter_history
     module: lambdas/meter_reader
     events:
       - http:
@@ -115,7 +116,7 @@ functions:
           method: get
 
   get_bill_value:
-    handler: lambdas/bill/bill_value_handler.get_bill_value
+    handler: bill_value_handler.get_bill_value
     module: lambdas/bill
     events:
       - http:
@@ -123,7 +124,7 @@ functions:
           method: post
 
   get_bill_history:
-    handler: lambdas/bill/bill_history_handler.get_history
+    handler: bill_history_handler.get_history
     module: lambdas/bill
     events:
       - http:
@@ -133,14 +134,13 @@ functions:
   save_payment:
     handler: payment_handler.save_payment
     module: lambdas/payment
-    vendor: "./vendored-libraries"
     events:
       - http:
           path: payment/savePayment
           method: post
 
   add_account:
-    handler: lambdas/account/account_handler.add_account
+    handler: account_handler.add_account
     module: lambdas/account
     events:
       - http:
