@@ -103,6 +103,14 @@ functions:
           path: meter_reader/read_digits
           method: post
 
+  get_meter_history:
+    handler: lambdas/meter_reader/meter_reader_history_handler.get_meter_history
+    module: lambdas/meter_reader
+    events:
+      - http:
+          path: meter_reader/getMeterHistory
+          method: get
+
   get_bill_value:
     handler: lambdas/bill/bill_value_handler.get_bill_value
     module: lambdas/bill
