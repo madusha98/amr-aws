@@ -10,11 +10,13 @@ package:
   exclude:
     - node_modules/**
   #   - yolo-model/**
+  include:
+    - utils/**
 
 plugins:
   - serverless-python-requirements
-  - serverless-dynamodb-local
-  - serverless-offline
+  # - serverless-dynamodb-local
+  # - serverless-offline
 
 custom:
   defaultStage: dev
