@@ -132,7 +132,7 @@ functions:
           method: post
     package:
       patterns:
-        - "!node_modules/**"
+        - "utils/**"
 
   add_account:
     handler: lambdas/account/account_handler.add_account
