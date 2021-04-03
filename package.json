@@ -9,7 +9,8 @@
   "dependencies": {
     "offline": "0.0.1",
     "serverless": "^2.33.0",
-    "serverless-dynamodb-local": "^0.2.30"
+    "serverless-dynamodb-local": "^0.2.30",
+    "serverless-package-python-functions": "^0.7.0"
   },
   "devDependencies": {
     "serverless-apigw-binary": "^0.4.4",

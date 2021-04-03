@@ -7,14 +7,15 @@ frameworkVersion: "2"
 
 package:
   individually: true
-  exclude:
-    - node_modules/**
-  #   - yolo-model/**
-  include:
-    - utils/**
+  # exclude:
+  #   - node_modules/**
+  # #   - yolo-model/**
+  # include:
+  #   - utils/**
 
 plugins:
   - serverless-python-requirements
+  - serverless-package-python-functions
   # - serverless-dynamodb-local
   # - serverless-offline
 
@@ -38,6 +39,11 @@ custom:
       dir: offline/migrations
   serverless-offline:
     resourceRoutes: true
+  pkgPyFuncs:
+    buildDir: _build
+    globalIncludes:
+      - ./utils
+    cleanup: true
 
 provider:
   name: aws
@@ -88,62 +94,79 @@ functions:
       - http:
           path: fcm/updatePushToken
           method: post
+    package:
+      include:
+        - lambdas/fcm
 
   send_push_notification:
     handler: lambdas/fcm/push_message_handler.send_notification
-    module: lambdas/fcm
     events:
       - http:
           path: fcm/sendPushMessage
           method: post
+    package:
+      include:
+        - lambdas/fcm
 
   read_digits:
     handler: lambdas/meter_reader/handler.read_digits
-    module: lambdas/meter_reader
     events:
       - http:
           path: meter_reader/read_digits
           method: post
+    package:
+      include:
+        - lambdas/meter_reader
 
   get_meter_history:
     handler: lambdas/meter_reader/meter_reader_history_handler.get_meter_history
-    module: lambdas/meter_reader
     events:
       - http:
           path: meter_reader/getMeterHistory
           method: get
+    package:
+      include:
+        - lambdas/meter_reader
 
   get_bill_value:
     handler: lambdas/bill/bill_value_handler.get_bill_value
-    module: lambdas/bill
     events:
       - http:
           path: bill/getBillValue
           method: post
+    package:
+      include:
+        - lambdas/bill
 
   get_bill_history:
     handler: lambdas/bill/bill_history_handler.get_history
-    module: lambdas/bill
     events:
       - http:
           path: bill/getHistory
           method: get
+    package:
+      include:
+        - lambdas/bill
 
   save_payment:
     handler: lambdas/payment/payment_handler.save_payment
-    module: lambdas/payment
     events:
       - http:
           path: payment/savePayment
           method: post
+    package:
+      include:
+        - lambdas/payment
 
   add_account:
     handler: lambdas/account/account_handler.add_account
-    module: lambdas/account
     events:
       - http:
           path: account/addAccount
           method: post
+    package:
+      include:
+        - lambdas/account
 
 resources:
   Resources:
