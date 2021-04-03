@@ -1,0 +1,17 @@
+{
+    "Table": {
+      "TableName": "accountTable",
+      "KeySchema": {
+        "AttributeName": "accId",
+        "KeyType": "HASH"
+      },
+      "AttributeDefinitions": {
+        "AttributeName": "accId",
+        "AttributeType": "S"
+      },
+      "ProvisionedThroughput": {
+        "ReadCapacityUnits": 1,
+        "WriteCapacityUnits": 1
+      }
+    }
+  }

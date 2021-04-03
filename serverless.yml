@@ -135,6 +135,14 @@ functions:
           path: payment/savePayment
           method: post
 
+  add_account:
+    handler: lambdas/account/account_handler.add_account
+    module: lambdas/account
+    events:
+      - http:
+          path: account/addAccount
+          method: post
+
 resources:
   Resources:
     ApiGatewayAuthorizer:
@@ -197,6 +205,19 @@ resources:
             AttributeType: S
         KeySchema:
           - AttributeName: transactionId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+    AccountTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: accountTable
+        AttributeDefinitions:
+          - AttributeName: accId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: accId
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1
