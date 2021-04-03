@@ -19,7 +19,6 @@ def get_meter_history(event, context):
         data = []
         for res in response['Items']:
             # print(json.dumps(res))
-            item = {"readingId": res['readingId']}
             item = {
                 "readingId": res[id],
                 "value": res['value'],
