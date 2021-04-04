@@ -11,7 +11,6 @@ package:
     - node_modules/**
     - offline/**
     - .dynamodb/**
-  #   - yolo-model/**
 
 plugins:
   - serverless-python-requirements
@@ -71,16 +70,16 @@ provider:
       - "*/*"
 
 functions:
-  # test:
-  #   handler: lambdas/handler.hello
-  #   events:
-  #     - http:
-  #         path: test
-  #         method: post
-  #         authorizer:
-  #           type: COGNITO_USER_POOLS
-  #           authorizerId:
-  #             Ref: ApiGatewayAuthorizer
+  test:
+    handler: lambdas/handler.hello
+    events:
+      - http:
+          path: test
+          method: post
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
 
   update_push_token:
     handler: lambdas/fcm/push_token_handler.update_token
@@ -107,7 +106,7 @@ functions:
           method: post
 
   get_meter_history:
-    handler: meter_reader_history_handler.get_meter_history
+    handler: lambdas/meter_reader/meter_reader_history_handler.get_meter_history
     module: lambdas/meter_reader
     events:
       - http:
