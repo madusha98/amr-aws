@@ -14,8 +14,8 @@ package:
 
 plugins:
   - serverless-python-requirements
-  # - serverless-dynamodb-local
-  # - serverless-offline
+  - serverless-dynamodb-local
+  - serverless-offline
 
 custom:
   defaultStage: dev
@@ -90,11 +90,11 @@ functions:
           method: post
 
   send_push_notification:
-    handler: lambdas/fcm/push_message_handler.send_notification
+    handler: lambdas/fcm/send_custom_message.send_notifications
     module: lambdas/fcm
     events:
       - http:
-          path: fcm/sendPushMessage
+          path: fcm/sendCustomPushMessage
           method: post
 
   read_digits:
@@ -144,6 +144,14 @@ functions:
       - http:
           path: account/addAccount
           method: post
+  # cronHandler:
+  #   handler: lambdas/fcm/scan_reminder.send_notifications
+  #   module: lambdas/fcm
+  #   events:
+  #     # - schedule: cron(0/2 * ? * MON-FRI *)
+  #     - http:
+  #         path: cronTest
+  #         method: get
 
 resources:
   Resources:

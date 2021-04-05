@@ -3,6 +3,8 @@ import boto3
 import base64
 from botocore.config import Config
 import os
+import time
+from decimal import Decimal
 
 offline = os.environ.get("IS_OFFLINE")
 
@@ -25,16 +27,18 @@ def update_token(event, context):
             resp = table.put_item(Item={
                 'deviceId': req['deviceId'],
                 'pushToken': req['pushToken'],
-                'userId': req['userId']
+                'userId': req['userId'],
+                'updatedOn': Decimal(str(time.time()))
             })
             responseBody = { "data": resp, "message": "Added Successfully" }
         else:
             resp = table.update_item(Key={
             'deviceId': req['deviceId']
             },
-            UpdateExpression='SET pushToken = :pushToken',
+            UpdateExpression='SET pushToken = :pushToken, updatedOn = :updatedOn',
                 ExpressionAttributeValues={
-                ':pushToken': req['pushToken']
+                ':pushToken': req['pushToken'],
+                ':updatedOn': Decimal(str(time.time()))
             })
             responseBody = { "data": resp, "message": "Updated Successfully" }
     except Exception as e:
