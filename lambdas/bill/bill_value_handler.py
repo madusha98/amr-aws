@@ -1,19 +1,34 @@
 import requests
-import json
+import simplejson as json
 import base64
 import boto3
 import uuid
 import time
 from botocore.config import Config
 from decimal import Decimal
+import os
+
+offline = os.environ.get("IS_OFFLINE")
 
 
 def get_bill_value(event, context):
 
     # 1. parse out request json body
-    body_dec = base64.b64decode(event['body'])
-    request = json.loads(body_dec)
-    # request = json.loads(event['body'])
+    try:
+        if offline == "true":
+            request = json.loads(event['body'])
+            dynamodb = boto3.resource('dynamodb', endpoint_url='http://localhost:8000', region_name='us-west-2')
+        else: 
+            body_dec = base64.b64decode(event['body'])
+            request = json.loads(body_dec)
+            dynamodb = boto3.resource('dynamodb')
+    except Exception as e:
+        print('Exception: ', e)
+        return {
+            "statusCode": 500,
+            "body": {"error": str(e)}
+            }
+
     noOfUnits = request['NoOfUnits']
     fromDate = request['FromDate']
     toDate = request['ToDate']
@@ -36,7 +51,6 @@ def get_bill_value(event, context):
     # response_load = json.loads(response.text)
     # print('Bill Value:', response_load['Total'])
 
-    dynamodb = boto3.resource('dynamodb')
     try:
         table = dynamodb.Table('billTable')
         id = uuid.uuid4().hex
@@ -49,6 +63,11 @@ def get_bill_value(event, context):
             })
     except Exception as e:
         print('Exception: ', e)
+        return {
+            "statusCode": 500,
+            "body": {"error": str(e)}
+            }
+
 
     # 4. return the repsonse object
     response = json.loads(response.text)

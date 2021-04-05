@@ -2,15 +2,19 @@ import json
 import base64
 import boto3
 from boto3.dynamodb.conditions import Key, Attr
+import os
 
+offline = os.environ.get("IS_OFFLINE")
 
 def get_meter_history(event, context):
     statusCode = 200
     dynamodb = boto3.resource('dynamodb')
-    # body_dec = base64.b64decode(event['body'])
-    # req = json.loads(body_dec) 
-    # req = json.loads(event['body']) # Uncomment to run locally
+
     try:
+        if offline == "true":
+            dynamodb = boto3.resource('dynamodb', endpoint_url='http://localhost:8000', region_name='us-west-2')
+        else:
+            dynamodb = boto3.resource('dynamodb')
         table = dynamodb.Table('monthlyReadingTable')
         response = table.scan(
             ProjectionExpression="readingId",

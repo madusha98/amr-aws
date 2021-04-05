@@ -6,14 +6,18 @@ import boto3
 import base64
 from botocore.config import Config
 from decimal import Decimal
+import os
+
+offline = os.environ.get("IS_OFFLINE")
 
 def read_digits(event, context):
 
-  # dynamodb = boto3.resource('dynamodb', endpoint_url='http://localhost:8000', region_name='us-west-2') $ local
-  dynamodb = boto3.resource('dynamodb')
-
   value = counter_recognition.get_reading(event)
   try:
+    if offline == "true":
+      dynamodb = boto3.resource('dynamodb', endpoint_url='http://localhost:8000', region_name='us-west-2')
+    else:
+      dynamodb = boto3.resource('dynamodb')
     id = uuid.uuid4().hex
     item = {
       "readingId": id,
