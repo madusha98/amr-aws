@@ -88,6 +88,10 @@ functions:
       - http:
           path: fcm/updatePushToken
           method: post
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
 
   send_push_notification:
     handler: lambdas/fcm/send_custom_message.send_notifications
@@ -104,6 +108,10 @@ functions:
       - http:
           path: meter_reader/read_digits
           method: post
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
 
   get_meter_history:
     handler: lambdas/meter_reader/meter_reader_history_handler.get_meter_history
@@ -112,6 +120,10 @@ functions:
       - http:
           path: meter_reader/getMeterHistory
           method: get
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
 
   get_bill_value:
     handler: lambdas/bill/bill_value_handler.get_bill_value
@@ -120,6 +132,10 @@ functions:
       - http:
           path: bill/getBillValue
           method: post
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
 
   get_bill_history:
     handler: lambdas/bill/bill_history_handler.get_history
@@ -128,6 +144,10 @@ functions:
       - http:
           path: bill/getHistory
           method: get
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
 
   save_payment:
     handler: lambdas/payment/payment_handler.save_payment
@@ -136,6 +156,10 @@ functions:
       - http:
           path: payment/savePayment
           method: post
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
 
   add_account:
     handler: lambdas/account/account_handler.add_account
@@ -144,6 +168,10 @@ functions:
       - http:
           path: account/addAccount
           method: post
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
   # cronHandler:
   #   handler: lambdas/fcm/scan_reminder.send_notifications
   #   module: lambdas/fcm
