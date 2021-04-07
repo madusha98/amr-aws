@@ -31,7 +31,9 @@ def send_notifications(event, context):
         tokens = [item['pushToken'] for item in data['Items']]
         send_notification(tokens, request['title'], request['message'])
 
-        return 'Notifications sent successfully'
+        return {'body': {
+            'message': 'Notifications sent successfully'
+            }}
         
     except Exception as e:
         print('Exception: ', e)

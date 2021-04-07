@@ -5,8 +5,9 @@ import firebase_admin
 
 def send_notification(tokens, title, body):
 
-    creds = credentials.Certificate('amr-mobile-service-acc.json')
-    app = firebase_admin.initialize_app(creds)
+    if not firebase_admin._apps:
+        creds = credentials.Certificate('amr-mobile-service-acc.json')
+        app = firebase_admin.initialize_app(creds)
 
     message = messaging.MulticastMessage(tokens=tokens,
             notification=messaging.Notification(
