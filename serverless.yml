@@ -398,8 +398,8 @@ resources:
           - Arn
       Export:
         Name: CognitoUserPoolArn-${self:custom.currentStage}
-    UserPoolClientId:
-      Value:
-        Ref: CognitoUserPoolClient
-      Export:
-        Name: "UserPoolClient::Id"
+    # UserPoolClientId:
+    #   Value:
+    #     Ref: CognitoUserPoolClient
+    #   Export:
+    #     Name: "UserPoolClient::Id"
