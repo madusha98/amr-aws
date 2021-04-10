@@ -1,4 +1,4 @@
-# import counter_recognition
+import counter_recognition
 import json
 import uuid
 import time

@@ -1,18 +1,55 @@
 image: nikolaik/python-nodejs:python3.6-nodejs12-stretch
 
 stages:
-  - test
-  - deploy
+  - unittest
+  - dev
+  - qa
+  - staging
+  - production
 
 test:
-  stage: test
+  stage: unittest
   script:
     # - pip install -r requirements.txt
     - pip install -r requirements-offline.txt
     - python -m unittest
 
+dev:
+  stage: dev
+  before_script:
+    - npm config set prefix /usr/local
+    - npm install -g serverless
+    - npm install --save serverless-python-requirements
+  script:
+    - serverless deploy --stage dev --verbose
+  environment: dev
+  only:
+    refs:
+      - master
+
+qa:
+  stage: qa
+  before_script:
+    - npm config set prefix /usr/local
+    - npm install -g serverless
+    - npm install --save serverless-python-requirements
+  script:
+    - serverless deploy --stage qa --verbose
+  environment: qa
+  when: manual
+
+staging:
+  stage: staging
+  before_script:
+    - npm config set prefix /usr/local
+    - npm install -g serverless
+    - npm install --save serverless-python-requirements
+  script:
+    - serverless deploy --stage staging --verbose
+  environment: staging
+  when: manual
 production:
-  stage: deploy
+  stage: production
   before_script:
     - npm config set prefix /usr/local
     - npm install -g serverless
@@ -20,6 +57,4 @@ production:
   script:
     - serverless deploy --stage production --verbose
   environment: production
-  only:
-    refs:
-      - master
+  when: manual
