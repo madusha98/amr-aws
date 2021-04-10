@@ -190,6 +190,19 @@ functions:
             type: COGNITO_USER_POOLS
             authorizerId:
               Ref: ApiGatewayAuthorizer
+  get_account_details:
+    handler: lambdas/account/account_details_handler.get_account_detaills
+    module: lambdas/account
+    environment:
+      stage: ${self:custom.currentStage}
+    events:
+      - http:
+          path: account/getAccountDetails
+          method: get
+          authorizer:
+            type: COGNITO_USER_POOLS
+            authorizerId:
+              Ref: ApiGatewayAuthorizer
   # cronHandler:
   #   handler: lambdas/fcm/scan_reminder.send_notifications
   #   module: lambdas/fcm
