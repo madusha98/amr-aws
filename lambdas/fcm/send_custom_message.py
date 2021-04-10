@@ -12,6 +12,7 @@ except Exception as e:
     from lambdas.fcm.push_message_handler import send_notification
 
 offline = os.environ.get("IS_OFFLINE")
+stage = os.environ.get("stage")
 
 
 def send_notifications(event, context):
@@ -25,7 +26,7 @@ def send_notifications(event, context):
             body_dec = base64.b64decode(event['body'])
             request = json.loads(body_dec)
 
-        table = dynamodb.Table('devicesTable')
+        table = dynamodb.Table('devicesTable-' + stage)
         data = table.scan()
         data = table.scan()
         tokens = [item['pushToken'] for item in data['Items']]

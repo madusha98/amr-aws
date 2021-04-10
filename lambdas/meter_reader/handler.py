@@ -9,6 +9,7 @@ from decimal import Decimal
 import os
 
 offline = os.environ.get("IS_OFFLINE")
+stage = os.environ.get("stage")
 
 def read_digits(event, context):
 
@@ -27,7 +28,7 @@ def read_digits(event, context):
       "accId": event["queryStringParameters"]['accId'],
       "imageUrl": "google.lk"
     }
-    table = dynamodb.Table('monthlyReadingTable')
+    table = dynamodb.Table('monthlyReadingTable-' + stage)
     resp = table.put_item(Item=item)
     print(resp)
   except Exception as e:

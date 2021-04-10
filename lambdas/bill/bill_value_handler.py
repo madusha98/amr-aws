@@ -9,6 +9,7 @@ from decimal import Decimal
 import os
 
 offline = os.environ.get("IS_OFFLINE")
+stage = os.environ.get("stage")
 
 
 def get_bill_value(event, context):
@@ -52,7 +53,7 @@ def get_bill_value(event, context):
     # print('Bill Value:', response_load['Total'])
 
     try:
-        table = dynamodb.Table('billTable')
+        table = dynamodb.Table('billTable-' + stage)
         id = uuid.uuid4().hex
         resp = table.put_item(Item={
                 'billId': id,

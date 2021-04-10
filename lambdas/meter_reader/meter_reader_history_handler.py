@@ -5,6 +5,7 @@ from boto3.dynamodb.conditions import Key, Attr
 import os
 
 offline = os.environ.get("IS_OFFLINE")
+stage = os.environ.get("stage")
 
 def get_meter_history(event, context):
     statusCode = 200
@@ -15,7 +16,7 @@ def get_meter_history(event, context):
             dynamodb = boto3.resource('dynamodb', endpoint_url='http://localhost:8000', region_name='us-west-2')
         else:
             dynamodb = boto3.resource('dynamodb')
-        table = dynamodb.Table('monthlyReadingTable')
+        table = dynamodb.Table('monthlyReadingTable-' + stage)
         response = table.scan(
             ProjectionExpression="readingId",
             FilterExpression=Attr('accId').eq(event["queryStringParameters"]['accId'])

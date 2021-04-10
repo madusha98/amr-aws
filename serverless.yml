@@ -72,6 +72,8 @@ provider:
 functions:
   test:
     handler: lambdas/handler.hello
+    environment:
+      stage: ${self:custom.currentStage}
     events:
       - http:
           path: test
@@ -84,6 +86,8 @@ functions:
   update_push_token:
     handler: lambdas/fcm/push_token_handler.update_token
     module: lambdas/fcm
+    environment:
+      stage: ${self:custom.currentStage}
     events:
       - http:
           path: fcm/updatePushToken
@@ -96,6 +100,8 @@ functions:
   send_push_notification:
     handler: lambdas/fcm/send_custom_message.send_notifications
     module: lambdas/fcm
+    environment:
+      stage: ${self:custom.currentStage}
     events:
       - http:
           path: fcm/sendCustomPushMessage
@@ -104,6 +110,8 @@ functions:
   read_digits:
     handler: lambdas/meter_reader/handler.read_digits
     module: lambdas/meter_reader
+    environment:
+      stage: ${self:custom.currentStage}
     events:
       - http:
           path: meter_reader/read_digits
@@ -116,6 +124,8 @@ functions:
   get_meter_history:
     handler: lambdas/meter_reader/meter_reader_history_handler.get_meter_history
     module: lambdas/meter_reader
+    environment:
+      stage: ${self:custom.currentStage}
     events:
       - http:
           path: meter_reader/getMeterHistory
@@ -128,6 +138,8 @@ functions:
   get_bill_value:
     handler: lambdas/bill/bill_value_handler.get_bill_value
     module: lambdas/bill
+    environment:
+      stage: ${self:custom.currentStage}
     events:
       - http:
           path: bill/getBillValue
@@ -140,6 +152,8 @@ functions:
   get_bill_history:
     handler: lambdas/bill/bill_history_handler.get_history
     module: lambdas/bill
+    environment:
+      stage: ${self:custom.currentStage}
     events:
       - http:
           path: bill/getHistory
@@ -152,6 +166,8 @@ functions:
   save_payment:
     handler: lambdas/payment/payment_handler.save_payment
     module: lambdas/payment
+    environment:
+      stage: ${self:custom.currentStage}
     events:
       - http:
           path: payment/savePayment
@@ -164,6 +180,8 @@ functions:
   add_account:
     handler: lambdas/account/account_handler.add_account
     module: lambdas/account
+    environment:
+      stage: ${self:custom.currentStage}
     events:
       - http:
           path: account/addAccount
@@ -198,7 +216,7 @@ resources:
     DevicesTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: devicesTable
+        TableName: devicesTable-${self:custom.currentStage}
         AttributeDefinitions:
           - AttributeName: deviceId
             AttributeType: S
@@ -211,7 +229,7 @@ resources:
     BillTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: billTable
+        TableName: billTable-${self:custom.currentStage}
         AttributeDefinitions:
           - AttributeName: billId
             AttributeType: S
@@ -224,7 +242,7 @@ resources:
     MonthlyReadingTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: monthlyReadingTable
+        TableName: monthlyReadingTable-${self:custom.currentStage}
         AttributeDefinitions:
           - AttributeName: readingId
             AttributeType: S
@@ -237,7 +255,7 @@ resources:
     PaymentTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: paymentTable
+        TableName: paymentTable-${self:custom.currentStage}
         AttributeDefinitions:
           - AttributeName: transactionId
             AttributeType: S
@@ -250,7 +268,7 @@ resources:
     AccountTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: accountTable
+        TableName: accountTable-${self:custom.currentStage}
         AttributeDefinitions:
           - AttributeName: accId
             AttributeType: S

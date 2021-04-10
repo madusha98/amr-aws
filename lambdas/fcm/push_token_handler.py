@@ -7,6 +7,7 @@ import time
 from decimal import Decimal
 
 offline = os.environ.get("IS_OFFLINE")
+stage = os.environ.get("stage")
 
 def update_token(event, context):
     statusCode = 200
@@ -20,7 +21,7 @@ def update_token(event, context):
             dynamodb = boto3.resource('dynamodb')
             body_dec = base64.b64decode(event['body'])
             req = json.loads(body_dec)
-        table = dynamodb.Table('devicesTable')
+        table = dynamodb.Table('devicesTable-' + stage)
         item = table.get_item(Key={'deviceId': req['deviceId']})
         print('Item', item)
         if ('Item' not in item):

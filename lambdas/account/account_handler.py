@@ -5,6 +5,7 @@ from botocore.config import Config
 import os
 
 offline = os.environ.get("IS_OFFLINE")
+stage = os.environ.get("stage")
 
 def add_account(event, context):
     statusCode = 200
@@ -19,7 +20,7 @@ def add_account(event, context):
             req = json.loads(body_dec)
         print(req['accId'])
         # input data to database
-        table = dynamodb.Table('accountTable')
+        table = dynamodb.Table('accountTable-' + stage)
         resp = table.put_item(Item={
             'accId': req['accId'],
             'userId': req['userId'],

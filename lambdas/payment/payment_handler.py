@@ -5,6 +5,7 @@ from botocore.config import Config
 import os
 
 offline = os.environ.get("IS_OFFLINE")
+stage = os.environ.get("stage")
 
 def save_payment(event, context):
     statusCode = 200
@@ -18,7 +19,7 @@ def save_payment(event, context):
             dynamodb = boto3.resource('dynamodb')
             body_dec = base64.b64decode(event['body'])
             req = json.loads(body_dec)
-        table = dynamodb.Table('paymentTable')
+        table = dynamodb.Table('paymentTable-' + stage)
         resp = table.put_item(Item={
             'transactionId': req['transactionId'],
             'amount': req['amount'],

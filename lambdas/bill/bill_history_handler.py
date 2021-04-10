@@ -5,6 +5,7 @@ from boto3.dynamodb.conditions import Key, Attr
 import os
 
 offline = os.environ.get("IS_OFFLINE")
+stage = os.environ.get("stage")
 
 def get_history(event, context):
 
@@ -16,7 +17,7 @@ def get_history(event, context):
         else:
             dynamodb = boto3.resource('dynamodb')
 
-        table = dynamodb.Table('billTable')
+        table = dynamodb.Table('billTable-' + stage)
         response = table.scan(
             # ProjectionExpression="billValue",
             FilterExpression=Attr('accId').eq(event["queryStringParameters"]['accId'])
