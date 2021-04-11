@@ -232,7 +232,7 @@ resources:
     MeterImagesBucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: MeterImagesBucket-${self:custom.currentStage}
+        BucketName: meterimagesbucket-${self:custom.currentStage}
     DevicesTable:
       Type: AWS::DynamoDB::Table
       Properties:

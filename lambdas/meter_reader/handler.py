@@ -34,7 +34,7 @@ def read_digits(event, context):
     resp = table.put_item(Item=item)
     print(resp)
 
-    s3.Object('MeterImagesBucket-'+ stage, id + '.jpg').put(Body=image)
+    s3.Object('meterimagesbucket-'+ stage, id + '.jpg').put(Body=image)
   except Exception as e:
     print(e)
 
