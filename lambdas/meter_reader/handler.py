@@ -23,7 +23,7 @@ def read_digits(event, context):
     item = {
       "readingId": id,
       "value": value['value'],
-      "score": value['score'],
+      "score": Decimal(str(value['score'])),
       "date": Decimal(str(time.time())),
       "accId": event["queryStringParameters"]['accId'],
       "imageUrl": "google.lk"

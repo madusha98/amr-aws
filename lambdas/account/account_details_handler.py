@@ -3,6 +3,7 @@ import base64
 import boto3
 from boto3.dynamodb.conditions import Key, Attr
 import os
+import simplejson as json
 
 offline = os.environ.get("IS_OFFLINE")
 stage = os.environ.get("stage")
@@ -21,7 +22,7 @@ def get_account_detaills(event, context):
             FilterExpression=Attr('userId').eq(event["queryStringParameters"]['userId'])
         )
         print(response)
-        responseBody=json.dumps(response['Items'])
+        responseBody=json.dumps(response['Items'], use_decimal=True)
     except Exception as e:
         print('Exception: ', e)
         statusCode = 500

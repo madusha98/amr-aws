@@ -3,6 +3,7 @@ import base64
 import boto3
 from boto3.dynamodb.conditions import Key, Attr
 import os
+import simplejson as json
 
 offline = os.environ.get("IS_OFFLINE")
 stage = os.environ.get("stage")
@@ -33,7 +34,7 @@ def get_meter_history(event, context):
             }
             # print(item)
             data.append(item)
-        responseBody=json.dumps(data)
+        responseBody=json.dumps(data, use_decimal=True)
     except Exception as e:
         print('Exception: ', e)
         statusCode = 500
