@@ -55,6 +55,7 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
         - lambda:InvokeFunction
+
       Resource:
         - arn:aws:dynamodb:ap-southeast-1:*:*
         - arn:aws:lambda:ap-southeast-1:*:*
@@ -67,6 +68,10 @@ provider:
       Action:
         - cognito-idp:*
       Resource: arn:aws:cognito-idp:*:*:*
+    - Effect: Allow
+      Action:
+        - s3:*
+      Resource: arn:aws:s3:ap-southeast-1:*:*
 
   apiGateway:
     binaryMediaTypes:
