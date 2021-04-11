@@ -22,7 +22,7 @@ def read_digits(event, context):
     else:
       dynamodb = boto3.resource('dynamodb')
       s3 = boto3.resource('s3')
-
+      
     id = uuid.uuid4().hex
     item = {
       "readingId": id,
@@ -37,10 +37,10 @@ def read_digits(event, context):
     print(resp)
 
     img_byte_arr = io.BytesIO()
-    image.save(img_byte_arr, format='JPG')
+    image.save(img_byte_arr, format='JPEG')
     img_byte_arr = img_byte_arr.getvalue()
     
-    s3.Object('meterimagesbucket-'+ stage, id + '.jpeg').put(Body=img_byte_arr)
+    s3.Object('meterimagesbucket-'+ stage, id + '.jpg').put(Body=img_byte_arr)
 
   except Exception as e:
     print(e)
