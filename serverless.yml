@@ -25,7 +25,6 @@ custom:
   identityPoolName: amr_identity_pool_${self:custom.currentStage}
   pythonRequirements:
     dockerizePip: non-linux
-    layer: true
   dynamodb:
     start:
       migrate: true
@@ -116,8 +115,6 @@ functions:
     module: lambdas/meter_reader
     environment:
       stage: ${self:custom.currentStage}
-    layers:
-      - Ref: PythonRequirementsLambdaLayer
     events:
       - http:
           path: meter_reader/read_digits
