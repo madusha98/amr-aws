@@ -15,8 +15,8 @@ package:
 plugins:
   - serverless-python-requirements
   # - serverless-dynamodb-local
+  # - serverless-s3-local
   # - serverless-offline
-
 custom:
   defaultStage: dev
   currentStage: ${opt:stage, self:custom.defaultStage}
@@ -25,6 +25,7 @@ custom:
   identityPoolName: amr_identity_pool_${self:custom.currentStage}
   pythonRequirements:
     dockerizePip: non-linux
+    layer: true
   dynamodb:
     start:
       migrate: true
@@ -37,6 +38,9 @@ custom:
       dir: offline/migrations
   serverless-offline:
     resourceRoutes: true
+  s3:
+    host: localhost
+    directory: /tmp
 
 provider:
   name: aws
@@ -112,6 +116,8 @@ functions:
     module: lambdas/meter_reader
     environment:
       stage: ${self:custom.currentStage}
+    layers:
+      - Ref: PythonRequirementsLambdaLayer
     events:
       - http:
           path: meter_reader/read_digits
@@ -226,6 +232,10 @@ resources:
         Type: COGNITO_USER_POOLS
         ProviderARNs:
           - Fn::GetAtt: [CognitoUserPool, Arn]
+    MeterImagesBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: MeterImagesBucket-${self:custom.currentStage}
     DevicesTable:
       Type: AWS::DynamoDB::Table
       Properties:

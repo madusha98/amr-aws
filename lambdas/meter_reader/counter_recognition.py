@@ -70,7 +70,7 @@ def get_reading(event):
     img = cv2.cvtColor(np.asarray(img),cv2.COLOR_RGB2BGR)
     predection = get_predection(img)
     res = validate_predection(predection)
-    return res
+    return res, img
 
 
 

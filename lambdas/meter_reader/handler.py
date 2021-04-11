@@ -13,12 +13,14 @@ stage = os.environ.get("stage")
 
 def read_digits(event, context):
 
-  value = counter_recognition.get_reading(event)
+  value, image = counter_recognition.get_reading(event)
   try:
     if offline == "true":
       dynamodb = boto3.resource('dynamodb', endpoint_url='http://localhost:8000', region_name='us-west-2')
+      s3 = boto3.resource('s3', endpoint_url='http://localhost:4569', aws_access_key_id='S3RVER', aws_secret_access_key='S3RVER')
     else:
       dynamodb = boto3.resource('dynamodb')
+      s3 = boto3.resource('s3')
     id = uuid.uuid4().hex
     item = {
       "readingId": id,
@@ -31,6 +33,8 @@ def read_digits(event, context):
     table = dynamodb.Table('monthlyReadingTable-' + stage)
     resp = table.put_item(Item=item)
     print(resp)
+
+    s3.Object('MeterImagesBucket-'+ stage, id + '.jpg').put(Body=image)
   except Exception as e:
     print(e)
 
