@@ -71,7 +71,7 @@ provider:
     - Effect: Allow
       Action:
         - s3:*
-      Resource: arn:aws:s3:ap-southeast-1:*:*
+      Resource: arn:aws:s3:::*
 
   apiGateway:
     binaryMediaTypes:
