@@ -120,6 +120,8 @@ functions:
     module: lambdas/meter_reader
     environment:
       stage: ${self:custom.currentStage}
+    layers:
+      - arn:aws:lambda:ap-southeast-1:923250232734:layer:ml_model_libs:3
     events:
       - http:
           path: meter_reader/read_digits

@@ -14,11 +14,11 @@ CONFIDENCE_THRESHOLD = 0.5
 NMS_THRESHOLD = 0.1
 
 def get_predection(image):
-    net = cv2.dnn.readNet("./yolo-model/yolov4-tiny-obj.cfg", "./yolo-model/yolov4-tiny-obj_best.weights")
+    net = cv2.dnn.readNet("/opt/yolo-model/yolov4-tiny-obj.cfg", "/opt/yolo-model/yolov4-tiny-obj_best.weights")
     net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
     net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA_FP16)
 
-    with open('./yolo-model/labels.txt', 'rt') as f:
+    with open('/opt/yolo-model/labels.txt', 'rt') as f:
         names = f.read().rstrip('\n').split('\n')
 
     model = cv2.dnn_DetectionModel(net)

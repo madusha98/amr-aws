@@ -1,8 +1,8 @@
-Flask
+# Flask
 pybase64
-jsonpickle
-pillow
-numpy
-opencv-python==4.4.0.46
-requests-toolbelt
+# jsonpickle
+# pillow
+# numpy
+# opencv-python==4.4.0.46
+# requests-toolbelt
 simplejson
