@@ -72,6 +72,8 @@ def get_bill_value(event, context):
 
     # 4. return the repsonse object
     response = json.loads(response.text)
+    response['fromDate'] = fromDate
+    response['toDate'] = toDate
     return {
         "body": json.dumps(response)
     }

@@ -9,7 +9,11 @@ from flask import jsonify
 from requests_toolbelt import MultipartDecoder
 from PIL import Image
 import io
+import boto3
+from boto3.dynamodb.conditions import Key, Attr
+from validate_location import validate_location
 
+stage = os.environ.get("stage")
 CONFIDENCE_THRESHOLD = 0.5
 NMS_THRESHOLD = 0.1
 
@@ -33,16 +37,37 @@ def get_predection(image):
     res = sorted(res, key=lambda k: k['x']) 
     return res
 
-def validate_predection(data):
+def validate_predection(data, event):
     if (len(data) != 5):
-        return {'error': 'Something went wrong. Please try again'}
-    
+        return {'error': 'Something went wrong. Please try again', 'code': 'ME001'}
+        
     value = [item['class'] for item in data]
     value = ''.join(map(str,value))
+    
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('accountTable-' + stage)
+    
+    response = table.scan(
+            FilterExpression=Attr('accId').eq(event["queryStringParameters"]['accId'])
+        )
+    
+    try:
+        lastReading = response['Items'][0]['lastReading']
+        if (float(lastReading) > float(value)):
+            print('value :  ', float(value))
+            return {'error': 'Something went wrong. Please try again', 'code': 'ME002'}
+            
+    except Exception as e:
+        print(e)
+    if not (validate_location(response['Items'][0]['location'], event["queryStringParameters"]['location'])):
+         return {'error': 'Something went wrong. Please try again', 'code': 'ME003', 'L1':response['Items'][0]['location'], 'L2': event["queryStringParameters"]['location'] }
+    
 
-    avgScore = np.mean([item['score'] for item in data])
+    avg_score = np.mean([item['score'] for item in data])
+    no_of_units = float(value) - float(lastReading)
+    last_read_date = response['Items'][0]['lastReadDate']
 
-    return  {'value': value, 'score': float(avgScore)}
+    return  {'value': value, 'score': float(avg_score), 'lastReadDate': last_read_date, 'noOfUnits': no_of_units}
 
 
 def get_reading(event):
@@ -66,7 +91,7 @@ def get_reading(event):
     
     img_cv2 = cv2.cvtColor(np.asarray(img),cv2.COLOR_RGB2BGR)
     predection = get_predection(img_cv2)
-    res = validate_predection(predection)
+    res = validate_predection(predection, event)
     return res, img
 
 

@@ -8,11 +8,15 @@ from botocore.config import Config
 from decimal import Decimal
 import os
 import io
+import simplejson as json
 
 offline = os.environ.get("IS_OFFLINE")
 stage = os.environ.get("stage")
+bucket_name = 'meterimagesbucket-'+ stage
 
 def read_digits(event, context):
+  
+  statusCode = 200
 
   value, image = counter_recognition.get_reading(event)
   try:
@@ -24,28 +28,40 @@ def read_digits(event, context):
       s3 = boto3.resource('s3')
       
     id = uuid.uuid4().hex
+    value['readingId'] = id
+    reading_value = value['value']
+    
+    image = image.convert('RGB')
+    img_byte_arr = io.BytesIO()
+    image.save(img_byte_arr, format='JPEG')
+    img_byte_arr = img_byte_arr.getvalue()
+    
+    image_name = id + '.jpg'
+    s3.Object(bucket_name, image_name).put(Body=img_byte_arr)
+    s3.ObjectAcl(bucket_name, image_name).put(ACL='public-read')
+    
+    url = f'https://{bucket_name}.s3.amazonaws.com/{image_name}'
+    
+    
     item = {
       "readingId": id,
-      "value": value['value'],
+      "value": reading_value,
       "score": Decimal(str(value['score'])),
       "date": Decimal(str(time.time())),
       "accId": event["queryStringParameters"]['accId'],
-      "imageUrl": "google.lk"
+      "imageUrl": url
     }
     table = dynamodb.Table('monthlyReadingTable-' + stage)
     resp = table.put_item(Item=item)
     print(resp)
 
-    img_byte_arr = io.BytesIO()
-    image.save(img_byte_arr, format='JPEG')
-    img_byte_arr = img_byte_arr.getvalue()
     
-    s3.Object('meterimagesbucket-'+ stage, id + '.jpg').put(Body=img_byte_arr)
-
+    
   except Exception as e:
     print(e)
+    statusCode = 500
 
   return {
-    'statusCode': 200,
-    'body': json.dumps(value)
+    'statusCode': statusCode,
+    'body': json.dumps(value, use_decimal=True)
   }
