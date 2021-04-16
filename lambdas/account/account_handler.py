@@ -36,23 +36,15 @@ def add_account(event, context):
             print(deleted)
         id = uuid.uuid4().hex
 
-        # Dummy data 
-        outstanding = '4570.00'
-        last_reading = '08615'
-        last_read_date = "01/02/2021"
-        last_read_timestamp = time.mktime(datetime.datetime.strptime(last_read_date, "%d/%m/%Y").timetuple())
-        # Call CEB API to get real data
-        
-
         resp = table.put_item(Item={
             'accId': id,
             'userId': req['userId'],
             'accNo': req['accNo'],
             'accName': req['accName'],
-            'outstanding': outstanding,
+            'outstanding': req['outstanding'],
             'location': req['location'],
-            'lastReading': last_reading,
-            'lastReadDate': Decimal(str(last_read_timestamp)),
+            'lastReading': req['lastReading'],
+            'lastReadDate': Decimal(str(req['lastReadDate'])),
             "date": Decimal(str(time.time()))
         })
         responseBody = {"data": resp, "message": "Account added successfully"}
