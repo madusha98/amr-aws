@@ -213,14 +213,14 @@ functions:
             type: COGNITO_USER_POOLS
             authorizerId:
               Ref: ApiGatewayAuthorizer
-  # cronHandler:
-  #   handler: lambdas/fcm/scan_reminder.send_notifications
-  #   module: lambdas/fcm
-  #   events:
-  #     # - schedule: cron(0/2 * ? * MON-FRI *)
-  #     - http:
-  #         path: cronTest
-  #         method: get
+  cronHandler:
+    handler: lambdas/fcm/scan_reminder.send_notifications
+    module: lambdas/fcm
+    events:
+      - schedule: cron(30 5 16 * ? *)
+      # - http:
+      #     path: cronTest
+      #     method: get
 
 resources:
   Resources:
