@@ -216,8 +216,10 @@ functions:
   cronHandler:
     handler: lambdas/fcm/scan_reminder.send_notifications
     module: lambdas/fcm
+    environment:
+      stage: ${self:custom.currentStage}
     events:
-      - schedule: cron(05 10 17 * ? *)
+      - schedule: cron(35 10 17 * ? *)
       # - http:
       #     path: cronTest
       #     method: get
