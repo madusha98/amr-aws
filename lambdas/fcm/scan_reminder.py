@@ -26,7 +26,7 @@ def send_notifications(event, context):
         table = dynamodb.Table('devicesTable-' + stage)
         data = table.scan()
         tokens = [item['pushToken'] for item in data['Items']]
-        send_notification(tokens, 'Bila gewapan bng', 'bila gewapan naththan kapanawa light hm')
+        send_notification(tokens, 'Smart Scanner', 'Hello there, don\'t forget to scan your electricity meter before end of this month. Simply scan and pay the bill instantly!')
         
     except Exception as e:
         print('Exception: ', e)

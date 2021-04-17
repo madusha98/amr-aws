@@ -217,7 +217,7 @@ functions:
     handler: lambdas/fcm/scan_reminder.send_notifications
     module: lambdas/fcm
     events:
-      - schedule: cron(30 5 16 * ? *)
+      - schedule: cron(05 10 17 * ? *)
       # - http:
       #     path: cronTest
       #     method: get
