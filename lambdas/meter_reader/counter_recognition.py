@@ -59,8 +59,8 @@ def validate_predection(data, event):
             
     except Exception as e:
         print(e)
-    if not (validate_location(response['Items'][0]['location'], event["queryStringParameters"]['location'])):
-         return {'error': 'Something went wrong. Please try again', 'code': 'ME003', 'L1':response['Items'][0]['location'], 'L2': event["queryStringParameters"]['location'] }
+    # if not (validate_location(response['Items'][0]['location'], event["queryStringParameters"]['location'])):
+    #      return {'error': 'Something went wrong. Please try again', 'code': 'ME003', 'L1':response['Items'][0]['location'], 'L2': event["queryStringParameters"]['location'] }
     
 
     avg_score = np.mean([item['score'] for item in data])

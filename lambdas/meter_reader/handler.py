@@ -19,6 +19,12 @@ def read_digits(event, context):
   statusCode = 200
 
   value, image = counter_recognition.get_reading(event)
+
+  if (event["queryStringParameters"]['quick'] == '1'):
+    return {
+    'statusCode': statusCode,
+    'body': json.dumps(value, use_decimal=True)
+  }
   try:
     if offline == "true":
       dynamodb = boto3.resource('dynamodb', endpoint_url='http://localhost:8000', region_name='us-west-2')

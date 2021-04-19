@@ -52,22 +52,23 @@ def get_bill_value(event, context):
     # response_load = json.loads(response.text)
     # print('Bill Value:', response_load['Total'])
 
-    try:
-        table = dynamodb.Table('billTable-' + stage)
-        id = uuid.uuid4().hex
-        resp = table.put_item(Item={
-                'billId': id,
-                'readingId': request['readingId'],
-                'accId': request['accId'],
-                'billValue': json.loads(response.text),
-                'date': Decimal(str(time.time()))
-            })
-    except Exception as e:
-        print('Exception: ', e)
-        return {
-            "statusCode": 500,
-            "body": {"error": str(e)}
-            }
+    if (request['quick'] == '0'):
+        try:
+            table = dynamodb.Table('billTable-' + stage)
+            id = uuid.uuid4().hex
+            resp = table.put_item(Item={
+                    'billId': id,
+                    'readingId': request['readingId'],
+                    'accId': request['accId'],
+                    'billValue': json.loads(response.text),
+                    'date': Decimal(str(time.time()))
+                })
+        except Exception as e:
+            print('Exception: ', e)
+            return {
+                "statusCode": 500,
+                "body": {"error": str(e)}
+                }
 
 
     # 4. return the repsonse object
