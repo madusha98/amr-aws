@@ -12,6 +12,7 @@ import datetime
 offline = os.environ.get("IS_OFFLINE")
 stage = os.environ.get("stage")
 
+#function to add account
 def add_account(event, context):
     statusCode = 200
     responseBody = {'data': ''}
